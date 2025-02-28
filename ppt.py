@@ -188,7 +188,7 @@ if uploaded_files:
                             )
                 
             except Exception as e:
-                # st.error(f"⚠️ Error during generation: {str(e)}")
+                st.error(f"⚠️ Error during generation: {str(e)}")
             finally:
                 # Cleanup temp files
                 shutil.rmtree(temp_dir, ignore_errors=True)
