@@ -187,9 +187,9 @@ if uploaded_files:
                                      else "application/pdf"
                             )
                 
-            except Exception as e:
-                st.error(f"⚠️ Error during generation: {str(e)}")
-            finally:
-                # Cleanup temp files
-                shutil.rmtree(temp_dir, ignore_errors=True)
+            # except Exception as e:
+            #     st.error(f"⚠️ Error during generation: {str(e)}")
+            # finally:
+            #     # Cleanup temp files
+            #     shutil.rmtree(temp_dir, ignore_errors=True)
 
