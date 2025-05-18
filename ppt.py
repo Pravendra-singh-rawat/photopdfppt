@@ -375,61 +375,23 @@ if uploaded_files:
     renamed_photo_paths = []
     rename_log = []
 
-    # for uploaded_file in uploaded_files:
-    #     original_name = uploaded_file.name
-    #     match = re.search(r"\b(\d{1,2}|81)\b", original_name)
+    for uploaded_file in uploaded_files:
+        original_name = uploaded_file.name
+        match = re.search(r"\b(\d{1,2}|81)\b", original_name)
         
-    #     if match:
-    #         number = int(match.group(1))
-    #         label = mapping.get(number, f"other {number}")
-    #         new_name = f"{number:02d} - {label}{os.path.splitext(original_name)[1]}"
-    #     else:
-    #         new_name = original_name  # No renaming if no number found
+        if match:
+            number = int(match.group(1))
+            label = mapping.get(number, f"other {number}")
+            new_name = f"{number:02d} - {label}{os.path.splitext(original_name)[1]}"
+        else:
+            new_name = original_name  # No renaming if no number found
         
-    #     file_path = os.path.join(temp_dir, new_name)
-    #     with open(file_path, "wb") as f:
-    #         f.write(uploaded_file.getbuffer())
+        file_path = os.path.join(temp_dir, new_name)
+        with open(file_path, "wb") as f:
+            f.write(uploaded_file.getbuffer())
         
-    #     renamed_photo_paths.append(file_path)
-    #     rename_log.append([original_name, new_name])
-
-
-
-      for uploaded_file in uploaded_files:
-    original_name = uploaded_file.name
-    match = re.search(r"\b(\d{1,2}|81)\b", original_name)
-    
-    if match:
-        number = int(match.group(1))
-        label = mapping.get(number, f"other {number}")
-        new_name = f"{number:02d} - {label}{os.path.splitext(original_name)[1]}"
-    else:
-        new_name = original_name  # No renaming if no number found
-    
-    file_path = os.path.join(temp_dir, new_name)
-    with open(file_path, "wb") as f:
-        f.write(uploaded_file.getbuffer())
-    
-    renamed_photo_paths.append(file_path)
-    rename_log.append([original_name, new_name])  
-
-    # Preview
-    st.subheader("Photo Preview")
-    cols = st.columns(3)
-    for idx, path in enumerate(renamed_photo_paths):
-        try:
-            with warnings.catch_warnings():
-                warnings.filterwarnings("ignore", category=DeprecationWarning)
-                cols[idx % 3].image(path, use_column_width=True, caption=os.path.basename(path))
-        except Exception as e:
-            st.error(f"Error previewing {os.path.basename(path)}: {str(e)}")
-                
-# Sort the photo paths naturally based on the numeric prefix in the filename
-def natural_sort_key(filename):
-    number = os.path.basename(filename).split(" - ")[0]
-    return int(number)
-
-renamed_photo_paths.sort(key=natural_sort_key)
+        renamed_photo_paths.append(file_path)
+        rename_log.append([original_name, new_name])
     # Output Options
     st.subheader("Output Settings")
     output_name = st.text_input("Base filename:", "MyPresentation")
